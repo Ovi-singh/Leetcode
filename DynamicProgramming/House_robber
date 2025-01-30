@@ -1,0 +1,34 @@
+// return the max profit a robber can have if he cant steal two continous houses 
+// can translate this question to max sum of array elements when no two continous elements can be take
+
+// not taking two neighbor elements != taking alternate elements . for ex. you can take element 1, 4, 6(i.e skippin both 2nd and 3rd)
+
+ // WHY ITS DP? 1) returning a max amount earned by robber given a constraint. 
+//2) max amount till i th house is max of prev. house and skipping current one OR max of house before the prev one and taking current one 
+//so some problems are overlapping 
+
+
+
+class Solution {
+public:
+
+//function func returns max. profit till i th house (Stored in a vector called dp , initially initialized -1)
+int func(vector<int>&nums, int i , int n, vector<int>& dp){
+    
+if(i>=n){
+    return 0;
+}
+if(dp[i]!=-1){
+    return dp[i];
+}
+int steal = nums[i] + func(nums,i+2,n, dp); //if you steal then you call the function for i + 2 
+int skip = func(nums,i+1,n,dp); //if you skip call function for i + 1 
+return dp[i]=max(skip,steal);
+
+}
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+         vector<int> dp(n,-1); //for storing results to avoid recalculation 
+        return func(nums, 0, n, dp); //starting from 0 index  . 
+    }
+};
