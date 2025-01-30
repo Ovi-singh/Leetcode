@@ -1,0 +1,53 @@
+//house robber but the houses make a ring , so first and last house are neighbors 
+
+// you either take first and consider the array for size - 1. or you either skip 1st "house" but consider last one . 
+//OR skip both :) 
+
+
+class Solution {
+public:
+    // This function computes the maximum profit (robbery) you can get starting from house `i` to house `n`
+    // It uses memoization to store already computed results in the dp vector.
+    int func(vector<int>& nums, vector<int>& dp, int i, int n) {
+        if (i >= n) return 0;  // If we have passed the last house, no profit to be made
+        if (dp[i] != -1) return dp[i];  // If the result for house `i` is already computed, return it
+        
+        // Case when we decide to steal from house `i`: Add current house value + profit from i+2 onward
+        int steal = nums[i] + func(nums, dp, i + 2, n);
+        
+        // Case when we decide to skip house `i`: Profit from the next house `i+1`
+        int skip = func(nums, dp, i + 1, n);
+        
+        // Store the maximum profit of either stealing or skipping in the dp array for future use
+        return dp[i] = max(steal, skip);
+    }
+
+    // Main function to solve the problem
+    int rob(vector<int>& nums) {
+        int n = nums.size();  // Number of houses
+        
+        // If there is only one house, rob it and return the amount
+        if (n == 1) {
+            return nums[0];
+        }
+        
+        // If there are two houses, rob the one with the higher amount
+        if (n == 2) {
+            return max(nums[0], nums[1]);
+        }
+        
+        // Declare two dp arrays, `dp` and `dp1`, for two scenarios:
+        // 1. `dp` handles the case where we rob the first house but not the last one
+        // 2. `dp1` handles the case where we don't rob the first house (i.e., start from house 1)
+        vector<int> dp(n, -1), dp1(n, -1);
+        
+        // Case 1: Rob from house 0 to house n-2 (inclusive)
+        int yes = func(nums, dp, 0, n - 1);
+        
+        // Case 2: Rob from house 1 to house n-1 (inclusive)
+        int no = func(nums, dp1, 1, n);
+        
+        // The result is the maximum of the two cases: either robbing from house 0 or not
+        return max(yes, no);
+    }
+};
