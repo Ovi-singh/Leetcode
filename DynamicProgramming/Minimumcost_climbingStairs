@@ -1,0 +1,30 @@
+// a variation of climbing stairs
+// to identify dp realize that you have to 1) return a minimum amount 2) overlapping subproblems can be created 
+
+#include <algorithm> // For using the min() function
+
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size(); // Get the total number of steps
+
+        // Create a memoization array to store the minimum cost to reach each step
+        vector<int> memo(n, 0);
+
+        // Base cases: The cost to reach the first two steps is the cost of the steps themselves
+        memo[0] = cost[0]; 
+        memo[1] = cost[1];
+
+        // Iterate through the remaining steps, calculating the minimum cost dynamically
+        for(int i = 2; i < n; i++) {
+            // The cost to reach the i-th step is the minimum of:
+            // - Taking one step from (i-1) and paying cost[i]
+            // - Taking two steps from (i-2) and paying cost[i]
+            memo[i] = min(memo[i-1] + cost[i], memo[i-2] + cost[i]);
+        }
+
+        // The final answer is the minimum cost to reach either of the last two steps
+        // (since you can stop at step n-1 or n-2 and "jump off" without extra cost)
+        return min(memo[n-1], memo[n-2]);
+    }
+};
