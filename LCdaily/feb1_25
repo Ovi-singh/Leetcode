@@ -1,0 +1,25 @@
+//SPECIAL ARRAY 1
+// an array is considered special if every pair of its adjacent elements contains two numbers with different parity.
+
+//NOTE:: **parity here in this question simply means if the number is even or odd :) check sample cases before jumping **
+
+class Solution {
+public:
+    bool isArraySpecial(vector<int>& nums) {
+ //a very useless thought process might be to calculate frequency in a 
+ //unordered map and then doing mod 2 
+ // but you can just mod 2 on the element itself ; - ; 
+ //PARITY IN THIS CASE MEANS IF NUMBER IS ODD OR EVEN< NO CONT> SHOULD BE BOTH EVEN OR BOTH ODD  . 
+int n = nums.size();
+if(n==1) return true;;
+for(int i = 0 ; i < n-1; i++){
+    if(nums[i] % 2 == nums[i+1] % 2){
+        return false;
+    }
+}
+return true;
+
+
+
+    }
+};
