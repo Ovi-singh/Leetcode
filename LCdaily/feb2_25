@@ -1,0 +1,27 @@
+//to check if array is sorted or sorted and rotated (increasin order)
+//keeping a counter variable - count to keep track
+// if there is no rotation but array is sorted then while iterating through array all next element should be greater than current 
+//increase count if a next element is less than current element 
+// 3 4 5 1 2   in this case of sorted and rotated we can see we get 1 count in case of rotated array 
+// lets say we have something like 3 5 6 4 now 4 is lesser than 6 but greater than 3 , this isnt rotated , so keep track of last and first elemtn //
+//in any case for sorted or sorted and rotated count should reach a maximum of 1 . 
+
+
+class Solution {
+public:
+    bool check(vector<int>& nums) {
+       int n = nums.size();
+       int count = 0;
+
+    
+    for(int i = 0 ; i < n-1; i++){
+        if(nums[i] > nums[i+1]){
+            count++;
+        }
+    }
+    if (nums[n - 1] > nums[0]) {
+            count++;
+        }
+    return count <= 1;
+    }
+};
