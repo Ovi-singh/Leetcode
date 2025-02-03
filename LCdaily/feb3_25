@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int longestMonotonicSubarray(vector<int>& nums) {
+   int n = nums.size();
+    if (n == 0) return 0;  // If the array is empty, return 0.
+
+    int longestLength = 1;  // Store the maximum subsequence length found.
+    int increasingLength = 1;  // Tracks the length of the increasing sequence
+    int decreasingLength = 1;  // Tracks the length of the decreasing sequence
+
+    for (int i = 1; i < n; i++) {
+        if (nums[i] > nums[i - 1]) {  
+            // If current element is greater than the previous → increasing
+            increasingLength++;  
+            decreasingLength = 1;  // Reset decreasing sequence
+        } 
+        else if (nums[i] < nums[i - 1]) {  
+            // If current element is smaller than the previous → decreasing
+            decreasingLength++;  
+            increasingLength = 1;  // Reset increasing sequence
+        } 
+        else {
+            // If it's neither increasing nor decreasing (equal elements), reset both
+            increasingLength = 1;
+            decreasingLength = 1;
+        }
+
+        longestLength = max(longestLength, max(increasingLength, decreasingLength));  
+    }
+    
+    return longestLength;  
+    }
+};
